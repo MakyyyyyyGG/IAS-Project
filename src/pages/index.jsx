@@ -1,6 +1,5 @@
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import LoginNav from "./components/loginNav";
 import { useState } from "react";
 import Link from "next/link";
 import { Divider } from "@nextui-org/react";
