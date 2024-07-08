@@ -13,6 +13,8 @@ import { Chip } from "@nextui-org/chip";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import Footer from "../components/Footer";
+import Example from "../components/Tracking";
 import {
   Dropdown,
   DropdownTrigger,
@@ -255,9 +257,9 @@ export default function Home() {
           alt="Logo"
           width={180}
           height={50}
-          className="w-[120px] sm:w-[180px]"
+          className="w-[120px] sm:w-[180px] sm:block hidden"
         />
-        <div className="searchbar sm:w-[600px] bg-[#e0e4f5] rounded-xl p-2 flex  w-[300px]">
+        <div className="searchbar sm:w-[600px] bg-[#e0e4f5] rounded-xl p-2 flex  ">
           <Search color="#545454" />
           <input
             type="text"
@@ -303,7 +305,6 @@ export default function Home() {
           </Dropdown>
         </div>
       </nav>
-
       <div className="container flex flex-col w-full sm:flex-row">
         <div className="div  sm:w-1/4 rounded-2xl bg-[#f5f5f5] p-5 overflow-auto sm:h-[580px] w-full h-[800px]">
           <div className="heade flex align-middle ">
@@ -389,7 +390,7 @@ export default function Home() {
         </div>
 
         <div className="div w-1/6 rounded-2xl hidden sm:block">
-          <div className="div  rounded-2xl bg-[#e0e4f5] p-3 overflow-auto ">
+          {/* <div className="div  rounded-2xl bg-[#e0e4f5] p-3 overflow-auto ">
             <Button
               onClick={onOpen}
               className="w-full h-[70px]  relative inline-flex items-center justify-center p-4 px-6 py-3 overflow-hidden font-bold text-indigo-600  transition duration-300 ease-out  rounded-xl   group  shadow bg-[#f5f5f5]"
@@ -402,8 +403,10 @@ export default function Home() {
               </span>
               <span class="relative invisible">Button Texts</span>
             </Button>
+          </div> */}
+          <div onClick={onOpen}>
+            <Example />
           </div>
-
           <Modal
             className="w-[500px] sm:w-[1000px] mx-4"
             size="3xl"
@@ -452,6 +455,70 @@ export default function Home() {
           </Modal>
         </div>
       </div>
+      <Modal
+        className="w-[500px] sm:w-[1000px] mx-4"
+        size="3xl"
+        backdrop="blur"
+        isOpen={isEditOpen}
+        onOpenChange={onEditOpenChange}
+        placement="center"
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col">
+                Edit your note
+              </ModalHeader>
+              <ModalBody>
+                <form className="flex flex-col gap-2 ">
+                  <Input
+                    autoComplete="false"
+                    autoFocus
+                    type="text"
+                    label="Title"
+                    name="title"
+                    variant="bordered"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                  <Textarea
+                    name="body"
+                    minRows={50}
+                    label="body"
+                    type="text"
+                    variant="bordered"
+                    value={body}
+                    onChange={(e) => setBody(e.target.value)}
+                  />
+                  <Button
+                    color="danger"
+                    variant="flat"
+                    onPress={() => {
+                      onClose();
+                      setTitle("");
+                      setBody("");
+                    }}
+                  >
+                    Close
+                  </Button>
+                  <Button
+                    color="primary"
+                    type="button"
+                    onPress={() => {
+                      handleSave();
+                      setTitle("");
+                      setBody("");
+                    }}
+                  >
+                    Save Note
+                  </Button>
+                </form>
+              </ModalBody>
+              <ModalFooter></ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
 
       <Modal
         className="w-[500px] sm:w-[1000px] mx-4"
@@ -517,6 +584,7 @@ export default function Home() {
           )}
         </ModalContent>
       </Modal>
+      <Footer></Footer>
     </main>
   );
 }

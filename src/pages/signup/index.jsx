@@ -75,42 +75,6 @@ function Signup() {
   }
 
   return (
-    // <div>
-    //   <h1>SIgnup</h1>
-    //   <form
-    //     action=""
-    //     autoComplete="off"
-    //     className="flex flex-col gap-2"
-    //     onSubmit={handleSubmit}
-    //   >
-    //     <input
-    //       type="text"
-    //       name="email"
-    //       value={email}
-    //       onChange={(e) => setEmail(e.target.value)}
-    //       placeholder="Enter your email"
-    //     />
-    //     <label htmlFor="email">Email</label>
-    //     <input
-    //       type="password"
-    //       name="password"
-    //       value={password}
-    //       onChange={(e) => setPassword(e.target.value)}
-    //       placeholder="Enter your password"
-    //     />
-    //     <label htmlFor="password">Password</label>
-    //     <button type="submit" className="p-2 bg-slate-700 text-slate-50">
-    //       Submit
-    //     </button>
-    //   </form>
-    //   <button
-    //     className="p-2 bg-blue-600 text-white mt-4"
-    //     onClick={handleGoogleSignIn}
-    //   >
-    //     Continue with Google
-    //   </button>
-    //   <Link href="/">Already have an account?</Link>
-    // </div>
     <div className="flex-col min-w-screen min-h-screen bg-[#7469b6] sm:flex sm:flex-row">
       <div className="min-w-[60%] h-screen overflow-hidden  hidden sm:block">
         <img
@@ -129,7 +93,7 @@ function Signup() {
         </div>
         <div className="card flex flex-col justify-center items-center h-full w-full">
           <div className="greet flex flex-col justify-center items-center gap-4 ">
-            <h1 className="text-5xl font-bold text-[#7469b6]">
+            <h1 className="sm:text-5xl font-bold text-[#7469b6]  text-[35px]">
               Create an acccount
             </h1>
             <Divider className="max-w-80 bg-[#7469b6] mb-5" />
@@ -137,7 +101,7 @@ function Signup() {
           <form
             action=""
             autoComplete="off"
-            className="flex flex-col gap-2 w-7/12"
+            className="flex flex-col gap-2  sm:w-7/12 w-11/12"
             onSubmit={handleSubmit}
           >
             <input
@@ -173,13 +137,13 @@ function Signup() {
               )}
             </Button>
             <div className="or flex justify-center items-center">
-              <Divider className="w-1/2" />
+              <Divider className="sm:w-1/2 w-32" />
               <p className="mx-2 my-4 text-sm">OR</p>
-              <Divider className="w-1/2" />
+              <Divider className="sm:w-1/2 w-32" />
             </div>
           </form>
           <button
-            className="w-7/12 mt-2 p-4 bg-blue-600 rounded-xl border border-[#7469b6] bg-transparent text-slate-700 font-bold hover:bg-[#7469b6] hover:text-white transition ease relative inline-flex items-center justify-center"
+            className="sm:w-7/12  mt-2  w-11/12 p-4 bg-blue-600 rounded-xl border border-[#7469b6] bg-transparent text-slate-700  font-bold hover:bg-[#7469b6] hover:text-white transition ease relative inline-flex items-center justify-center"
             onClick={handleGoogleSignIn}
           >
             <svg
@@ -223,7 +187,7 @@ function Signup() {
             <span className="mx-autofont-bold">Continue with Google</span>
           </button>
           <button
-            className="w-7/12 mt-2 p-4 rounded-xl border bg-[#1f7bf2] font-bold hover:bg-[#4762b1] text-white transition ease relative inline-flex items-center justify-center"
+            className="w-11/12 sm:w-7/12 mt-2 p-4 rounded-xl border  bg-[#1f7bf2]  font-bold hover:bg-[#4762b1] text-white transition ease relative inline-flex items-center justify-center"
             onClick={handleFacebookSignIn}
           >
             <svg

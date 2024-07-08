@@ -72,7 +72,7 @@ function Signup() {
 
         <div className="card flex flex-col justify-center items-center h-full w-full">
           <div className="greet flex flex-col justify-center items-center gap-4 ">
-            <h1 className="text-5xl font-bold text-[#7469b6]  ">
+            <h1 className="sm:text-5xl font-bold text-[#7469b6]  text-[35px]">
               Account Sign In
             </h1>
             <Divider className="max-w-80 bg-[#7469b6]  mb-5" />
@@ -91,7 +91,7 @@ function Signup() {
           <form
             action=""
             autoComplete="off"
-            className="flex flex-col gap-2  w-7/12"
+            className="flex flex-col gap-2  sm:w-7/12 w-11/12"
             onSubmit={handleSubmit}
           >
             <input
@@ -136,13 +136,13 @@ function Signup() {
               )}
             </Button>
             <div className="or flex justify-center items-center">
-              <Divider className="w-1/2" />
+              <Divider className="sm:w-1/2 w-32" />
               <p className="mx-2  my-4 text-sm">OR</p>
-              <Divider className="w-1/2" />
+              <Divider className="sm:w-1/2 w-32" />
             </div>
           </form>
           <button
-            className="w-7/12 mt-2 p-4 bg-blue-600 rounded-xl border border-[#7469b6] bg-transparent text-slate-700  font-bold hover:bg-[#7469b6] hover:text-white transition ease relative inline-flex items-center justify-center"
+            className="sm:w-7/12  mt-2  w-11/12 p-4 bg-blue-600 rounded-xl border border-[#7469b6] bg-transparent text-slate-700  font-bold hover:bg-[#7469b6] hover:text-white transition ease relative inline-flex items-center justify-center"
             onClick={handleGoogleSignIn}
           >
             <svg
@@ -187,7 +187,7 @@ function Signup() {
           </button>
 
           <button
-            className="w-7/12 mt-2 p-4 rounded-xl border  bg-[#1f7bf2]  font-bold hover:bg-[#4762b1] text-white transition ease relative inline-flex items-center justify-center"
+            className="w-11/12 sm:w-7/12 mt-2 p-4 rounded-xl border  bg-[#1f7bf2]  font-bold hover:bg-[#4762b1] text-white transition ease relative inline-flex items-center justify-center"
             onClick={handleFacebookSignIn}
           >
             <svg
