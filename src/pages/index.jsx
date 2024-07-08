@@ -44,7 +44,7 @@ function Signup() {
   };
 
   // Redirect to homepage if session is active
-  if (status === "authenticated" && session?.user) {
+  if (status === "authenticated") {
     router.push(`/homepage`);
   }
 
