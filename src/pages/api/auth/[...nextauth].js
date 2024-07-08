@@ -23,7 +23,7 @@ export const authOptions = {
       async authorize(credentials, req) {
         try {
           const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/signin`,
+            "https://ias-project-rmz00tn4u-mark-clerigos-projects.vercel.app/sapi/signin",
             {
               //must be http://localhost:3000/api/signin
               method: "POST",
