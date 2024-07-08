@@ -4,8 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { Divider } from "@nextui-org/react";
 import { Input, Button } from "@nextui-org/react";
-import { EyeFilledIcon } from "./components/EyeFilledIcon";
-import { EyeSlashFilledIcon } from "./components/EyeSlashedFilledIcon";
 import { CircleAlert } from "lucide-react";
 
 function Signup() {
@@ -121,13 +119,7 @@ function Signup() {
                   className="focus:outline-none "
                   type="button"
                   onClick={toggleVisibility}
-                >
-                  {isVisible ? (
-                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                  ) : (
-                    <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                  )}
-                </button>
+                ></button>
               }
             />
             <Button
