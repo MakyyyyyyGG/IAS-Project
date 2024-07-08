@@ -78,6 +78,7 @@ export const authOptions = {
     async session({ session, token, user }) {
       if (token.sub && session.user) {
         session.user.id = token.sub;
+        session.expires = new Date().getTime() + 24 * 60 * 60 * 1000; // 24 hours in milliseconds
       }
 
       // If the provider is Facebook, use session.user.name as session.user.email
