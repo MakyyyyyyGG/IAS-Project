@@ -137,24 +137,24 @@ export default function Home() {
     setBody("");
   }
 
-  async function getUsers() {
-    if (!session?.user?.email) return; // Ensure session and email exist
+  // async function getUsers() {
+  //   if (!session?.user?.email) return; // Ensure session and email exist
 
-    const getData = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    const res = await fetch(
-      `http://localhost:3000/api/users?author=${session?.user.email}`,
-      getData
-    );
-    const data = await res.json();
-    console.log(data.notes);
-    setNotes(data.notes);
-    setFilteredNote(data.notes);
-  }
+  //   const getData = {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   };
+  //   const res = await fetch(
+  //     `http://localhost:3000/api/users?author=${session?.user.email}`,
+  //     getData
+  //   );
+  //   const data = await res.json();
+  //   console.log(data.notes);
+  //   setNotes(data.notes);
+  //   setFilteredNote(data.notes);
+  // }
 
   async function deleteUser(id) {
     // Show confirmation dialog using Swal
@@ -233,6 +233,25 @@ export default function Home() {
   };
 
   useEffect(() => {
+    async function getUsers() {
+      if (!session?.user?.email) return;
+
+      const getData = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const res = await fetch(
+        `http://localhost:3000/api/users?author=${session?.user.email}`,
+        getData
+      );
+      const data = await res.json();
+      console.log(data.notes);
+      setNotes(data.notes);
+      setFilteredNote(data.notes);
+    }
+
     if (status === "authenticated") {
       getUsers();
     }
