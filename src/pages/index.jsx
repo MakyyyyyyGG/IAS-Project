@@ -7,7 +7,6 @@ import { Input, Button } from "@nextui-org/react";
 import { CircleAlert } from "lucide-react";
 
 function Signup() {
-  const domain = process.env.NEXT_PUBLIC_APP_URL;
   const [isVisible, setIsVisible] = useState(false);
   const [shake, setShake] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
