@@ -10,8 +10,7 @@ export async function query({ query, values = [] }) {
       database: process.env.MYSQL_DATABASE,
       password: process.env.MYSQL_PASSWORD,
       waitForConnections: true,
-      connectionLimit: 10, // Adjust this as needed
-      queueLimit: 0
+      queueLimit: 0,
     });
   }
 

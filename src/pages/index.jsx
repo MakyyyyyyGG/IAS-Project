@@ -52,8 +52,8 @@ function Signup() {
   }
   //jasdg
   return (
-    <div className="flex min-w-screen min-h-screen bg-[#7469b6]">
-      <div className="min-w-[60%] h-screen overflow-hidden">
+    <div className="flex-col min-w-screen min-h-screen bg-[#7469b6] sm:flex sm:flex-row">
+      <div className="min-w-[60%] h-screen overflow-hidden  hidden sm:block">
         <img
           src="noteeee.svg"
           alt=""
@@ -61,7 +61,7 @@ function Signup() {
         />
       </div>
 
-      <div className="w-full bg-[#f5f5f5]">
+      <div className="w-full bg-[#f5f5f5] h-screen">
         <div className="logo absolute top-0">
           <img
             src="logo.svg"

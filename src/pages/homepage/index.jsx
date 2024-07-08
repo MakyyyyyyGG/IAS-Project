@@ -248,10 +248,16 @@ export default function Home() {
   // }, [session, status]);
 
   return (
-    <main className=" w-[1400px] m-auto py-6 font-inter h-screen">
+    <main className=" max-w-[1400px] m-auto py-6 font-inter h-screen p-4">
       <nav className="flex rounded-2xl w-full border justify-between items-center bg-[#f5f5f5] p-3 mb-5">
-        <img src="/logo.svg" alt="Logo" width={180} height={50} />
-        <div className="searchbar w-[600px] bg-[#e0e4f5] rounded-xl p-2 flex">
+        <img
+          src="/logo.svg"
+          alt="Logo"
+          width={180}
+          height={50}
+          className="w-[120px] sm:w-[180px]"
+        />
+        <div className="searchbar sm:w-[600px] bg-[#e0e4f5] rounded-xl p-2 flex  w-[300px]">
           <Search color="#545454" />
           <input
             type="text"
@@ -298,12 +304,20 @@ export default function Home() {
         </div>
       </nav>
 
-      <div className="container flex w-full">
-        <div className="div  w-1/4 rounded-2xl bg-[#f5f5f5] p-5 overflow-auto h-[580px]">
+      <div className="container flex flex-col w-full sm:flex-row">
+        <div className="div  sm:w-1/4 rounded-2xl bg-[#f5f5f5] p-5 overflow-auto h-[580px] w-full">
           <div className="heade flex align-middle ">
-            <h1 className="font-bold mx-2 text-3xl text-[#7F76CE]">
-              All Notes
-            </h1>
+            <div className="flex w-full  justify-between">
+              <h1 className="font-bold mx-2 text-3xl text-[#7F76CE]">
+                All Notes
+              </h1>
+              <Button
+                onClick={onOpen}
+                className="w-[100px] sm:h-[70px]  bg-[] h-[50px] relative inline-flex items-center justify-center p-4 px-6 py-3 font-bold text-indigo-600  transition duration-300 ease-out  rounded-xl   group  shadow bg-[#f5f5f5]"
+              >
+                <Pencil color={"#7f76ce"}></Pencil>
+              </Button>
+            </div>
           </div>
           {filteredNote.length === 0 ? (
             <p>No notes found.</p>
@@ -349,7 +363,7 @@ export default function Home() {
           )}
         </div>
 
-        <div className="relative flex-1 w-3/5 mx-7 rounded-2xl bg-[#f5f5f5] overflow-auto h-[580px] p-8">
+        <div className="relative flex-1 w-3/5 mx-7 rounded-2xl bg-[#f5f5f5] overflow-auto h-[580px] p-8 hidden sm:block">
           <div className="h-[450px]">
             {selectedNote && (
               <div className="userDetails">
@@ -382,20 +396,6 @@ export default function Home() {
             >
               <span class="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-[#7f76ce] group-hover:translate-x-0 ease">
                 <PencilLine color="white" size={30} />
-                {/* <svg
-                    class="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M14 5l7 7m0 0l-7 7m7-7H3"
-                    ></path>
-                  </svg> */}
               </span>
               <span class="absolute flex items-center justify-center w-full h-full text-purple-500 transition-all duration-300 transform group-hover:translate-x-full ease text-2xl">
                 Add Note
