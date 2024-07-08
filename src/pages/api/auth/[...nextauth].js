@@ -22,7 +22,7 @@ export const authOptions = {
       },
       async authorize(credentials, req) {
         try {
-          const res = await fetch("https://ias-project.vercel.app/api/signin", {
+          const res = await fetch("/api/signin", {
             //must be http://localhost:3000/api/signin
             method: "POST",
             body: JSON.stringify(credentials),

@@ -67,7 +67,7 @@ export default function Home() {
     };
 
     try {
-      const res = await fetch(`${domain}/api/users/`, putData);
+      const res = await fetch(`/api/users/`, putData);
 
       if (!res.ok) {
         throw new Error("Failed to update user.");
@@ -122,7 +122,7 @@ export default function Home() {
       }),
     };
 
-    const res = await fetch(`${domain}/api/users`, postData);
+    const res = await fetch(`/api/users`, postData);
     const data = await res.json();
     console.log(data);
     getUsers();
@@ -147,7 +147,7 @@ export default function Home() {
       },
     };
     const res = await fetch(
-      `${domain}/api/users?author=${session?.user.email}`,
+      `/api/users?author=${session?.user.email}`,
       getData
     );
     const data = await res.json();
@@ -182,7 +182,7 @@ export default function Home() {
         }),
       };
       try {
-        const res = await fetch(`${domain}/api/users`, deleteData);
+        const res = await fetch(`/api/users`, deleteData);
         const data = await res.json();
 
         if (res.ok) {
