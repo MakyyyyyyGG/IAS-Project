@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Link from "next/link";
 import { Divider } from "@nextui-org/react";
-import { Input, Button } from "@nextui-org/react";
+import { Input, Button, Spinner } from "@nextui-org/react";
 import { CircleAlert } from "lucide-react";
 
 function Signup() {
@@ -13,11 +13,12 @@ function Signup() {
   const [message, setMessage] = useState("");
   const router = useRouter();
   const { data: session, status } = useSession();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-
+    setLoading(true);
     const signInResponse = await signIn("credentials", {
       email: data.get("email"),
       password: data.get("password"),
@@ -33,6 +34,8 @@ function Signup() {
       setTimeout(() => setShake(false), 500); // Remove shake animation after 500ms
       console.log(signInResponse.error);
     }
+
+    setLoading(false);
   };
 
   const handleGoogleSignIn = async () => {
@@ -126,7 +129,16 @@ function Signup() {
               type="submit"
               className="rounded-xl p-7 bg-[#7469b6] text-slate-50 text-lg hover:bg-[#473f7e] transition ease-in-out "
             >
-              Submit
+              {loading ? (
+                <Spinner
+                  size="md"
+                  label="Loading..."
+                  color="secondary"
+                  labelColor="secondary"
+                />
+              ) : (
+                "Sign In"
+              )}
             </Button>
             <div className="or flex justify-center items-center">
               <Divider className="w-1/2" />
