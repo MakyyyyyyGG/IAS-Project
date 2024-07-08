@@ -5,8 +5,8 @@ import { NextResponse } from "next/server";
 export async function middleware(req, ev) {
   const session = await getSession({ req });
 
-  // if (!session) {
-  //   return NextResponse.redirect("/ ");
-  // }
+  if (!session) {
+    return NextResponse.redirect("/");
+  }
   return NextResponse.next();
 }

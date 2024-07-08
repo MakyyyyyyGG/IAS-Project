@@ -87,6 +87,9 @@ export const authOptions = {
 
       return session;
     },
+    async redirect(url, baseUrl) {
+      return `${process.env.NEXT_PUBLIC_BASE_URL}`;
+    },
     async jwt({ token, user }) {
       if (user) {
         token.sub = user.id; // Assuming user.id is the unique identifier you want to use
