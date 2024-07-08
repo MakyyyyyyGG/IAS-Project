@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { Html, Head, Main, NextScript } from "next/document";
+import Script from "next/script";
 import { Inter } from "next/font/google";
 import { useEffect, useState } from "react";
 import { Button } from "@nextui-org/react";
@@ -33,7 +35,7 @@ import { redirect } from "next/dist/server/api-utils";
 
 export default function Home() {
   const router = useRouter();
-
+  const domain = process.env.NEXT_PUBLIC_APP_URL;
   const { data: session, status } = useSession();
   const [selectedNote, setSelectedNote] = useState(null);
   const [filteredNote, setFilteredNote] = useState([]);
@@ -67,7 +69,7 @@ export default function Home() {
     };
 
     try {
-      const res = await fetch(`http://localhost:3000/api/users/`, putData);
+      const res = await fetch(`${domain}/api/users/`, putData);
 
       if (!res.ok) {
         throw new Error("Failed to update user.");
@@ -122,7 +124,7 @@ export default function Home() {
       }),
     };
 
-    const res = await fetch("http://localhost:3000/api/users", postData);
+    const res = await fetch(`${domain}/api/users`, postData);
     const data = await res.json();
     console.log(data);
     getUsers();
@@ -147,7 +149,7 @@ export default function Home() {
       },
     };
     const res = await fetch(
-      `http://localhost:3000/api/users?author=${session?.user.email}`,
+      `${domain}/api/users?author=${session?.user.email}`,
       getData
     );
     const data = await res.json();
@@ -182,7 +184,7 @@ export default function Home() {
         }),
       };
       try {
-        const res = await fetch(`http://localhost:3000/api/users`, deleteData);
+        const res = await fetch(`${domain}/api/users`, deleteData);
         const data = await res.json();
 
         if (res.ok) {

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Divider } from "@nextui-org/react";
 import { Input, Button } from "@nextui-org/react";
 function Signup() {
+  const domain = process.env.NEXT_PUBLIC_APP_URL;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -30,7 +31,7 @@ function Signup() {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/api/accounts", postData);
+      const res = await fetch(`${domain}/api/accounts`, postData);
       const data = await res.json();
       console.log(data);
 
