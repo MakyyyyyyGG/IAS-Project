@@ -6,8 +6,7 @@ export async function middleware(req, ev) {
   const session = await getSession({ req });
 
   if (!session) {
-    return NextResponse.redirect("/api/auth/signin");
+    return NextResponse.redirect("/");
   }
-
   return NextResponse.next();
 }

@@ -67,9 +67,9 @@ function Signup() {
   };
 
   // Redirect to homepage if session is active
-  if (status === "authenticated" && session?.user) {
-    router.push("/homepage");
-  }
+  // if (status === "authenticated" && session?.user) {
+  //   router.push("/homepage");
+  // }
 
   return (
     // <div>
