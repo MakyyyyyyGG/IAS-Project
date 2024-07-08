@@ -9,7 +9,7 @@ import {
 
 const Example = () => {
   return (
-    <div className="grid w-full place-content-center   text-slate-900 hover:cursor-pointer">
+    <div className="grid w-full place-content-center   text-slate-900 hover:cursor-pointer ">
       <TiltCard />
     </div>
   );
@@ -61,14 +61,14 @@ const TiltCard = () => {
         transformStyle: "preserve-3d",
         transform,
       }}
-      className="relative h-20 w-52 rounded-xl bg-gradient-to-br from-indigo-300 to-violet-300"
+      className="border-2 border-[#7f76ce] shadow-md relative h-20 w-52 rounded-xl bg-gradient-to-br from-indigo-300 to-violet-300"
     >
       <div
         style={{
           transform: "translateZ(75px)",
           transformStyle: "preserve-3d",
         }}
-        className="absolute inset-2 grid place-content-center rounded-xl bg-white shadow-lg"
+        className="absolute inset-2 grid place-content-center rounded-xl bg-white shadow-xl"
       >
         {/* <FiMousePointer
           style={{

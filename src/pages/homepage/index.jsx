@@ -251,7 +251,7 @@ export default function Home() {
 
   return (
     <main className=" max-w-[1400px] m-auto py-6 font-inter h-screen p-4">
-      <nav className="flex rounded-2xl w-full border justify-between items-center bg-[#f5f5f5] p-3 mb-5">
+      <nav className="border-2 border-[#7469b6] flex rounded-2xl w-full  justify-between items-center bg-violet-100  p-3 mb-5 shadow-md">
         <img
           src="/logo.svg"
           alt="Logo"
@@ -259,11 +259,11 @@ export default function Home() {
           height={50}
           className="w-[120px] sm:w-[180px] sm:block hidden"
         />
-        <div className="searchbar sm:w-[600px] bg-[#e0e4f5] rounded-xl p-2 flex  ">
+        <div className="searchbar sm:w-[600px] bg-[#e0e4f5] rounded-xl p-2 flex border-2 border-[#7469b6] ">
           <Search color="#545454" />
           <input
             type="text"
-            className="w-full bg-[#e0e4f5] outline-none ml-2"
+            className="w-full bg-[#e0e4f5] outline-none ml-2 "
             placeholder="Search your notes"
             onChange={handleSearch}
           ></input>
@@ -273,6 +273,7 @@ export default function Home() {
             <DropdownTrigger>
               <Avatar
                 isBordered
+                color="primary"
                 as="button"
                 className="transition-transform"
                 src={session?.user.image}
@@ -305,8 +306,9 @@ export default function Home() {
           </Dropdown>
         </div>
       </nav>
+
       <div className="container flex flex-col w-full sm:flex-row">
-        <div className="div  sm:w-1/4 rounded-2xl bg-[#f5f5f5] p-5 overflow-auto sm:h-[580px] w-full h-[800px]">
+        <div className="div  sm:w-1/4 rounded-2xl bg-violet-100 p-5 overflow-auto sm:h-[580px] w-full h-[700px] shadow-lg border-2 border-[#7F76CE]">
           <div className="heade flex align-middle ">
             <div className="flex w-full  justify-between items-center">
               <h1 className="font-bold mx-2 text-3xl text-[#7F76CE]">
@@ -364,7 +366,7 @@ export default function Home() {
           )}
         </div>
 
-        <div className="relative flex-1 w-3/5 mx-7 rounded-2xl bg-[#f5f5f5] overflow-auto h-[580px] p-8 hidden sm:block">
+        <div className="shadow-lg relative flex-1 w-3/5 mx-7 rounded-2xl bg-violet-100 border-2 border-[#7F76CE] overflow-auto h-[580px] p-8 hidden sm:block">
           <div className="h-[450px]">
             {selectedNote && (
               <div className="userDetails">
@@ -425,7 +427,6 @@ export default function Home() {
                     <form onSubmit={addUser} className="flex flex-col gap-2">
                       <Input
                         autoComplete="false"
-                        autoFocus
                         type="text"
                         label="Title"
                         name="title"
@@ -473,7 +474,6 @@ export default function Home() {
                 <form className="flex flex-col gap-2 ">
                   <Input
                     autoComplete="false"
-                    autoFocus
                     type="text"
                     label="Title"
                     name="title"
@@ -538,7 +538,6 @@ export default function Home() {
                 <form className="flex flex-col gap-2 ">
                   <Input
                     autoComplete="false"
-                    autoFocus
                     type="text"
                     label="Title"
                     name="title"

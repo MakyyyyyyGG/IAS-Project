@@ -8,8 +8,35 @@
 }
 body {
   font-family: "Inter", sans-serif;
-
+  background-image: url("/bg9.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
   background-color: #d9dddf;
+
+  /* background: hsla(191, 88%, 81%, 1);
+
+  background: radial-gradient(
+    circle,
+    hsla(191, 88%, 81%, 1) 0%,
+    hsla(260, 72%, 82%, 1) 50%,
+    hsla(247, 73%, 69%, 1) 100%
+  );
+
+  background: -moz-radial-gradient(
+    circle,
+    hsla(191, 88%, 81%, 1) 0%,
+    hsla(260, 72%, 82%, 1) 50%,
+    hsla(247, 73%, 69%, 1) 100%
+  );
+
+  background: -webkit-radial-gradient(
+    circle,
+    hsla(191, 88%, 81%, 1) 0%,
+    hsla(260, 72%, 82%, 1) 50%,
+    hsla(247, 73%, 69%, 1) 100%
+  );
+
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#A4E9F9", endColorstr="#C5AEF2", GradientType=1 ); */
 }
 img {
   height: 50px;
