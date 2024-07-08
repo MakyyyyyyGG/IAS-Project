@@ -130,12 +130,7 @@ function Signup() {
               className="rounded-xl p-7 bg-[#7469b6] text-slate-50 text-lg hover:bg-[#473f7e] transition ease-in-out "
             >
               {loading ? (
-                <Spinner
-                  size="md"
-                  label="Loading..."
-                  color="secondary"
-                  labelColor="secondary"
-                />
+                <Spinner size="md" color="secondary" labelColor="secondary" />
               ) : (
                 "Sign In"
               )}

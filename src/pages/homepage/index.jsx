@@ -208,6 +208,7 @@ export default function Home() {
           icon: "error",
         });
       }
+      setSelectedNote(null);
     }
   }
 

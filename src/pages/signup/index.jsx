@@ -4,18 +4,20 @@ import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import Link from "next/link";
 import { Divider } from "@nextui-org/react";
-import { Input, Button } from "@nextui-org/react";
+import { Input, Button, Spinner } from "@nextui-org/react";
 function Signup() {
   const domain = process.env.NEXT_PUBLIC_APP_URL;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
   const { data: session, status } = useSession();
+  const [loading, setLoading] = useState(false);
   const handleFacebookSignIn = async () => {
     await signIn("facebook");
   };
   async function handleSubmit(event) {
     event.preventDefault();
+    setLoading(true);
     console.log(email, password);
     console.log("I'm clicked");
 
@@ -59,6 +61,7 @@ function Signup() {
     } catch (error) {
       console.error("Error:", error);
     }
+    setLoading(false);
   }
 
   // Function to handle Google OAuth sign-in
@@ -163,7 +166,11 @@ function Signup() {
               type="submit"
               className="rounded-xl p-7 bg-[#7469b6] text-slate-50 text-lg hover:bg-[#473f7e] transition ease-in-out "
             >
-              Submit
+              {loading ? (
+                <Spinner size="md" color="secondary" labelColor="secondary" />
+              ) : (
+                "Sign Up"
+              )}
             </Button>
             <div className="or flex justify-center items-center">
               <Divider className="w-1/2" />
