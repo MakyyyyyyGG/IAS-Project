@@ -1,5 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>;
+<script async src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>;
 
 export default function Document() {
   return (
