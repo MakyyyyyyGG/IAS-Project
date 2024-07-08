@@ -47,7 +47,7 @@ function Signup() {
   if (status === "authenticated") {
     router.push(`/homepage`);
   }
-  //
+  //jasdg
   return (
     <div className="flex min-w-screen min-h-screen bg-[#7469b6]">
       <div className="min-w-[60%] h-screen overflow-hidden">
