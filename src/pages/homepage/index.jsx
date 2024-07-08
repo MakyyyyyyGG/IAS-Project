@@ -308,7 +308,7 @@ export default function Home() {
       </nav>
 
       <div className="container flex flex-col w-full sm:flex-row">
-        <div className="div  sm:w-1/4 rounded-2xl bg-violet-100 p-5 overflow-auto sm:h-[580px] w-full h-[620px] shadow-lg border-2 border-[#7F76CE]">
+        <div className="div  sm:w-1/4 rounded-2xl bg-violet-100 p-5 overflow-auto sm:h-[580px] w-full h-[590px] shadow-lg border-2 border-[#7F76CE]">
           <div className="heade flex align-middle ">
             <div className="flex w-full  justify-between items-center">
               <h1 className="font-bold mx-2 text-3xl text-[#7F76CE]">
