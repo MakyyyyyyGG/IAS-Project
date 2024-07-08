@@ -305,17 +305,17 @@ export default function Home() {
       </nav>
 
       <div className="container flex flex-col w-full sm:flex-row">
-        <div className="div  sm:w-1/4 rounded-2xl bg-[#f5f5f5] p-5 overflow-auto h-[580px] w-full">
+        <div className="div  sm:w-1/4 rounded-2xl bg-[#f5f5f5] p-5 overflow-auto sm:h-[580px] w-full h-[800px]">
           <div className="heade flex align-middle ">
-            <div className="flex w-full  justify-between">
+            <div className="flex w-full  justify-between items-center">
               <h1 className="font-bold mx-2 text-3xl text-[#7F76CE]">
                 All Notes
               </h1>
               <Button
                 onClick={onOpen}
-                className="w-[100px] sm:h-[70px]  bg-[] h-[50px] relative inline-flex items-center justify-center p-4 px-6 py-3 font-bold text-indigo-600  transition duration-300 ease-out  rounded-xl   group  shadow bg-[#f5f5f5]"
+                className="sm:hidden w-[100px] sm:h-[70px]  bg-[#7F76CE] h-[50px] relative inline-flex items-center justify-center p-4 px-6 py-3 font-bold text-indigo-600  transition duration-300 ease-out  rounded-xl   group  shadow"
               >
-                <Pencil color={"#7f76ce"}></Pencil>
+                <Pencil color={"#e0e4f5"}></Pencil>
               </Button>
             </div>
           </div>
@@ -388,7 +388,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="div w-1/6 rounded-2xl ">
+        <div className="div w-1/6 rounded-2xl hidden sm:block">
           <div className="div  rounded-2xl bg-[#e0e4f5] p-3 overflow-auto ">
             <Button
               onClick={onOpen}
@@ -405,11 +405,12 @@ export default function Home() {
           </div>
 
           <Modal
+            className="w-[500px] sm:w-[1000px] mx-4"
             size="3xl"
             backdrop="blur"
             isOpen={isOpen}
             onOpenChange={onOpenChange}
-            placement="top-center"
+            placement="center"
           >
             <ModalContent>
               {(onClose) => (
@@ -453,11 +454,12 @@ export default function Home() {
       </div>
 
       <Modal
+        className="w-[500px] sm:w-[1000px] mx-4"
         size="3xl"
         backdrop="blur"
         isOpen={isEditOpen}
         onOpenChange={onEditOpenChange}
-        placement="top-center"
+        placement="center"
       >
         <ModalContent>
           {(onClose) => (
