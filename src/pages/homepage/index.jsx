@@ -1,6 +1,4 @@
 import Image from "next/image";
-import { Html, Head, Main, NextScript } from "next/document";
-import Script from "next/script";
 import { Inter } from "next/font/google";
 import { useEffect, useState } from "react";
 import { Button } from "@nextui-org/react";
