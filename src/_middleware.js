@@ -1,5 +1,5 @@
 // pages/_middleware.js
-import { getSession } from "next-auth/client";
+import { getSession } from "next-auth/react";
 import { NextResponse } from "next/server";
 
 export async function middleware(req, ev) {
