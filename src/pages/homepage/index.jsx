@@ -15,6 +15,7 @@ import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Footer from "../components/Footer";
 import Example from "../components/Tracking";
+import CryptoJS from "crypto-js";
 import {
   Dropdown,
   DropdownTrigger,
@@ -50,13 +51,99 @@ export default function Home() {
     onOpenChange: onEditOpenChange,
   } = useDisclosure();
 
+  const generateAESKey = (key) => {
+    const hash = CryptoJS.SHA256(key).toString(CryptoJS.enc.Hex);
+    // Use the first 32 characters of the hash as the AES key
+    return CryptoJS.enc.Hex.parse(hash.slice(0, 32));
+  };
+
+  // Function to encrypt text using AES
+  const encryptText = (text, key) => {
+    try {
+      const generatedKey = generateAESKey(key);
+      const encrypted = CryptoJS.AES.encrypt(text, generatedKey.toString(), {
+        format: CryptoJS.format.OpenSSL,
+      }).toString();
+      return encrypted;
+    } catch (error) {
+      console.error("Encryption error:", error);
+      throw error;
+    }
+  };
+
+  const decryptText = (encryptedText, key) => {
+    try {
+      const generatedKey = generateAESKey(key);
+      console.log("Generated Key :" + generatedKey);
+      const decryptedBytes = CryptoJS.AES.decrypt(
+        encryptedText,
+        generatedKey.toString(), //
+        {
+          format: CryptoJS.format.OpenSSL,
+        }
+      );
+      const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+      return decryptedText;
+    } catch (error) {
+      console.error("Decryption error:", error);
+      return ""; // Return an empty string or handle the error as needed
+    }
+  };
+
+  // const handleSave = async () => {
+  //   if (!selectedNote) return;
+
+  //   const updatedNote = {
+  //     ...selectedNote,
+  //     title,
+  //     body,
+  //     created: date.toLocaleDateString("en-US", options),
+  //   };
+
+  //   const putData = {
+  //     method: "PUT",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(updatedNote),
+  //   };
+
+  //   try {
+  //     const res = await fetch(`/api/users/`, putData);
+
+  //     if (!res.ok) {
+  //       throw new Error("Failed to update user.");
+  //     }
+
+  //     const data = await res.json();
+  //     console.log("Updated User:", data);
+  //     const updatedNoteData = data.updatedNote;
+
+  //     const updatedNotes = notes.map((note) =>
+  //       note.id === updatedNoteData.id ? updatedNoteData : note
+  //     );
+
+  //     setNotes(updatedNotes);
+  //     setFilteredNote(updatedNotes);
+  //     setSelectedNote(updatedNoteData); // Update selectedNote with the new data
+
+  //     onEditOpenChange();
+  //     getUsers();
+  //   } catch (error) {
+  //     console.error("Error updating note:", error);
+  //   }
+  // };
   const handleSave = async () => {
     if (!selectedNote) return;
 
+    // Encrypt the title and body using the session user's email
+    const encryptedTitle = encryptText(title, session.user.email);
+    const encryptedBody = encryptText(body, session.user.email);
+
     const updatedNote = {
       ...selectedNote,
-      title,
-      body,
+      title: encryptedTitle,
+      body: encryptedBody,
       created: date.toLocaleDateString("en-US", options),
     };
 
@@ -79,13 +166,20 @@ export default function Home() {
       console.log("Updated User:", data);
       const updatedNoteData = data.updatedNote;
 
+      // Decrypt the updated note data
+      const decryptedUpdatedNote = {
+        ...updatedNoteData,
+        title: decryptText(updatedNoteData.title, session.user.email),
+        body: decryptText(updatedNoteData.body, session.user.email),
+      };
+
       const updatedNotes = notes.map((note) =>
-        note.id === updatedNoteData.id ? updatedNoteData : note
+        note.id === decryptedUpdatedNote.id ? decryptedUpdatedNote : note
       );
 
       setNotes(updatedNotes);
       setFilteredNote(updatedNotes);
-      setSelectedNote(updatedNoteData); // Update selectedNote with the new data
+      setSelectedNote(decryptedUpdatedNote); // Update selectedNote with the new data
 
       onEditOpenChange();
       getUsers();
@@ -112,6 +206,9 @@ export default function Home() {
       return; // Stop execution if validation fails
     }
 
+    const encryptedTitle = encryptText(title.trim(), session.user.email);
+    const encryptedBody = encryptText(body.trim(), session.user.email);
+
     const postData = {
       method: "POST",
       headers: {
@@ -119,8 +216,8 @@ export default function Home() {
       },
       body: JSON.stringify({
         author: session.user.email,
-        title: title.trim(),
-        body: body.trim(),
+        title: encryptedTitle,
+        body: encryptedBody,
       }),
     };
 
@@ -139,6 +236,25 @@ export default function Home() {
     setBody("");
   }
 
+  // async function getUsers() {
+  //   if (!session?.user?.email) return; // Ensure session and email exist
+
+  //   const getData = {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   };
+  //   const res = await fetch(
+  //     `/api/users?author=${session?.user.email}`,
+  //     getData
+  //   );
+  //   const data = await res.json();
+  //   console.log(data.notes);
+  //   setNotes(data.notes);
+  //   setFilteredNote(data.notes);
+  // }
+
   async function getUsers() {
     if (!session?.user?.email) return; // Ensure session and email exist
 
@@ -148,14 +264,28 @@ export default function Home() {
         "Content-Type": "application/json",
       },
     };
-    const res = await fetch(
-      `/api/users?author=${session?.user.email}`,
-      getData
-    );
-    const data = await res.json();
-    console.log(data.notes);
-    setNotes(data.notes);
-    setFilteredNote(data.notes);
+
+    try {
+      const res = await fetch(
+        `/api/users?author=${session.user.email}`,
+        getData
+      );
+      const data = await res.json();
+      console.log(data.notes);
+      // Decrypt notes if they contain encrypted fields
+      const decryptedNotes = data.notes.map((note) => ({
+        ...note,
+        body: decryptText(note.body, session.user.email), // Decrypt body field
+        title: decryptText(note.title, session.user.email), // Decrypt title field
+      }));
+
+      // Set decrypted notes into state
+      setNotes(decryptedNotes);
+      setFilteredNote(decryptedNotes);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      // Handle error appropriately
+    }
   }
 
   async function deleteUser(id) {

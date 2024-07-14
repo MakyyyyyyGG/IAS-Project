@@ -11,6 +11,7 @@
   "dependencies": {
     "@nextui-org/react": "^2.4.2",
     "clsx": "^2.1.1",
+    "crypto-js": "^4.2.0",
     "framer-motion": "^11.2.12",
     "lucide-react": "^0.399.0",
     "multer": "^1.4.5-lts.1",
