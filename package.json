@@ -21,6 +21,7 @@
     "nodemailer": "^6.9.14",
     "react": "^18",
     "react-dom": "^18",
+    "resend": "^3.4.0",
     "sweetalert2": "^11.12.1",
     "tailwind-merge": "^2.3.0"
   },
