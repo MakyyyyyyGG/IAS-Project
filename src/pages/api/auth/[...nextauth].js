@@ -22,7 +22,7 @@ export const authOptions = {
       },
       async authorize(credentials, req) {
         try {
-          const res = await fetch("https://ias-project.vercel.app/api/signin", {
+          const res = await fetch("http://localhost:3000/api/signin", {
             //must be http://localhost:3000/api/signin ||  https://ias-project.vercel.app/api/signin
             method: "POST",
             body: JSON.stringify(credentials),
@@ -67,7 +67,7 @@ export const authOptions = {
         await query({
           query:
             "INSERT INTO users (email, name, provider, identifier) VALUES (?, ?, ?, ?)",
-          values: [email, user.name, account.provider, user.id],
+          values: [email, user.name || null, account.provider, user.id],
         });
       } else {
         user.account_id = existingUser[0].account_id; // Add account_id to user object

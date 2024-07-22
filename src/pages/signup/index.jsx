@@ -4,17 +4,26 @@ import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import Link from "next/link";
 import { Divider } from "@nextui-org/react";
-import { Input, Button, Spinner } from "@nextui-org/react";
+import { Checkbox, Input, Button, Spinner } from "@nextui-org/react";
+import ReCAPTCHA from "react-google-recaptcha";
 function Signup() {
   const domain = process.env.NEXT_PUBLIC_APP_URL;
+  const [shake, setShake] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordLength, setPasswordLength] = useState(false);
+  const [passwordUpper, setPasswordUpper] = useState(false);
+  const [passwordNumber, setPasswordNumber] = useState(false);
+  const [passwordSpecial, setPasswordSpecial] = useState(false);
+  const [capVal, setCapVal] = useState(null);
   const router = useRouter();
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(false);
+
   const handleFacebookSignIn = async () => {
     await signIn("facebook");
   };
+
   async function handleSubmit(event) {
     event.preventDefault();
     setLoading(true);
@@ -51,6 +60,7 @@ function Signup() {
         });
         setEmail("");
         setPassword("");
+        setPasswordStrength("");
       } else {
         Swal.fire({
           title: "Error!",
@@ -67,6 +77,18 @@ function Signup() {
   // Function to handle Google OAuth sign-in
   const handleGoogleSignIn = async () => {
     await signIn("google");
+  };
+
+  // Function to evaluate password strength
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+
+    // Update password conditions
+    setPasswordLength(newPassword.length >= 8);
+    setPasswordSpecial(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(newPassword));
+    setPasswordUpper(/[A-Z]/.test(newPassword));
+    setPasswordNumber(/\d/.test(newPassword));
   };
 
   // Redirect to homepage if session is active
@@ -119,14 +141,42 @@ function Signup() {
               type="password"
               name="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePasswordChange}
               placeholder="Enter your password"
               className="w-full p-4 bg-blue-600 rounded-xl border border-[#7469b6] bg-transparent text-[#7469b6] transition ease relative inline-flex items-center justify-center"
             />
             <label htmlFor="password" className="sr-only">
               Password
             </label>
+            {/* <p className="password-strength-message">{passwordStrength}</p> */}
+            <div className="w-full rounded-lg flex flex-col  py-2 hover:cursor-default">
+              <Checkbox
+                isSelected={passwordLength}
+                className=" hover:cursor-default"
+              >
+                At least 8 characters long.
+              </Checkbox>
+              <Checkbox
+                isSelected={passwordUpper}
+                className=" hover:cursor-default"
+              >
+                Contains uppercase letter.
+              </Checkbox>
+              <Checkbox
+                isSelected={passwordNumber}
+                className=" hover:cursor-default"
+              >
+                Contains number.
+              </Checkbox>
+              <Checkbox
+                isSelected={passwordSpecial}
+                className=" hover:cursor-default"
+              >
+                Contains special character.
+              </Checkbox>
+            </div>
             <Button
+              disabled={!passwordLength || !passwordUpper || !passwordNumber}
               type="submit"
               className="rounded-xl p-7 bg-[#7469b6] text-slate-50 text-lg hover:bg-[#473f7e] transition ease-in-out "
             >
