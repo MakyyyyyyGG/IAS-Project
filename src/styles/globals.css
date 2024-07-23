@@ -102,3 +102,8 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+Button[disabled=""][type="submit"] {
+  background: #4b4b4d;
+  cursor: not-allowed;
+}

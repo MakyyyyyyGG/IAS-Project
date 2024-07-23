@@ -1,12 +1,15 @@
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Divider } from "@nextui-org/react";
-import { Input, Button, Spinner } from "@nextui-org/react";
+import { Code, Input, Button, Spinner } from "@nextui-org/react";
 import { CircleAlert } from "lucide-react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 function Signup() {
+  const [captchaVerified, setCaptchaVerified] = useState(false);
+
   const [isVisible, setIsVisible] = useState(false);
   const [shake, setShake] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -14,6 +17,24 @@ function Signup() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src =
+      "https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit";
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+  const handleCaptchaChange = (value) => {
+    setCaptchaVerified(!!value);
+  };
+
+  const isFormValid = captchaVerified;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -71,50 +92,54 @@ function Signup() {
         </div>
 
         <div className="card flex flex-col justify-center items-center h-full w-full">
-          <div className="greet flex flex-col justify-center items-center gap-4 ">
+          <div className="greet flex flex-col  gap-4  sm:w-6/12">
             <h1 className="sm:text-5xl font-bold text-[#7469b6]  text-[35px]">
-              Account Sign In
+              Sign In
             </h1>
-            <Divider className="max-w-80 bg-[#7469b6]  mb-5" />
+            <p className="mb-8 text-md">
+              Welcome back! Please enter your credentials.
+            </p>
           </div>
 
           {message && (
-            <div
-              className={`mb-4 p-4 rounded-xl border border-[#dd6565] flex text-[#dd6565] ${
+            <Code
+              color="danger"
+              className={` flex items-center p-4  mb-6 ${
                 shake ? "animate-shake" : ""
               }`}
             >
               <CircleAlert strokeWidth={2} color="#dd6565" className="mr-2" />
               {message}
-            </div>
+            </Code>
           )}
           <form
             action=""
             autoComplete="off"
-            className="flex flex-col gap-2  sm:w-7/12 w-11/12"
+            className="flex flex-col gap-2  sm:w-6/12 w-11/12"
             onSubmit={handleSubmit}
           >
+            <label htmlFor="email" className="font-bold text-[#3b3b3b]">
+              Email
+            </label>
             <input
-              size="lg"
+              size="sm"
               color="[]"
-              label="Email"
               variant="bordered"
-              placeholder="Email"
+              placeholder="example@gmail.com"
               type="text"
               name="email"
-              className="w-full p-4 bg-blue-600 rounded-xl border border-[#7469b6] bg-transparent text-[#7469b6]  transition ease relative inline-flex items-center justify-center"
+              className="w-full p-3 bg-blue-600 rounded-xl border border-[#7469b6] bg-transparent text-[#7469b6]  transition ease relative inline-flex items-center justify-center"
             />
-            {/* <input
-                type="password"
-                name="password"
-                placeholder="Enter your password"
-              /> */}
+
+            <label htmlFor="password" className="font-bold text-[#3b3b3b]">
+              Password
+            </label>
             <input
               name="password"
               size="lg"
-              className="w-full p-4 bg-blue-600 rounded-xl border border-[#7469b6] bg-transparent text-[#7469b6]  transition ease relative inline-flex items-center justify-center "
+              className="w-full p-3 bg-blue-600 rounded-xl border border-[#7469b6] bg-transparent text-[#7469b6]  transition ease relative inline-flex items-center justify-center "
               label="Password"
-              placeholder="Password"
+              placeholder="Enter password"
               type="password"
               variant="bordered"
               endContent={
@@ -125,9 +150,13 @@ function Signup() {
                 ></button>
               }
             />
+
             <Button
               type="submit"
-              className="rounded-xl p-7 bg-[#7469b6] text-slate-50 text-lg hover:bg-[#473f7e] transition ease-in-out "
+              className={`my-5 rounded-xl p-7 bg-[#7469b6] text-slate-50 text-lg hover:bg-[#473f7e] transition ease-in-out ${
+                !isFormValid ? "disabled" : ""
+              }`}
+              disabled={!isFormValid}
             >
               {loading ? (
                 <Spinner size="md" color="secondary" labelColor="secondary" />
@@ -135,6 +164,12 @@ function Signup() {
                 "Sign In"
               )}
             </Button>
+            <div className="w-full flex justify-center">
+              <ReCAPTCHA
+                sitekey="6LecYxYqAAAAAFo1X_fRHai0n-b8f9--GySkIXqh"
+                onChange={handleCaptchaChange}
+              />
+            </div>
             <div className="or flex justify-center items-center">
               <Divider className="sm:w-1/2 w-32" />
               <p className="mx-2  my-4 text-sm">OR</p>
@@ -142,7 +177,7 @@ function Signup() {
             </div>
           </form>
           <button
-            className="sm:w-7/12  mt-2  w-11/12 p-4 bg-blue-600 rounded-xl border border-[#7469b6] bg-transparent text-slate-700  font-bold hover:bg-[#7469b6] hover:text-white transition ease relative inline-flex items-center justify-center"
+            className="sm:w-6/12  mt-2  w-11/12 p-3 bg-blue-600 rounded-xl border border-[#7469b6] bg-transparent text-slate-700  font-bold hover:bg-[#7469b6] hover:text-white transition ease relative inline-flex items-center justify-center"
             onClick={handleGoogleSignIn}
           >
             <svg
@@ -187,7 +222,7 @@ function Signup() {
           </button>
 
           <button
-            className="w-11/12 sm:w-7/12 mt-2 p-4 rounded-xl border  bg-[#1f7bf2]  font-bold hover:bg-[#4762b1] text-white transition ease relative inline-flex items-center justify-center"
+            className="w-11/12 sm:w-6/12 mt-2 p-3 rounded-xl border  bg-[#1f7bf2]  font-bold hover:bg-[#4762b1] text-white transition ease relative inline-flex items-center justify-center"
             onClick={handleFacebookSignIn}
           >
             <svg
@@ -208,11 +243,10 @@ function Signup() {
             </svg>
             <span className="mx-auto">Continue with Facebook</span>
           </button>
-
-          <div className="footer flex mt-4">
-            <p>Don't have an account? </p>
+          <div className="footer flex mt-5 ">
+            <p>New to Noted? </p>
             <Link href="/signup" className="ml-1 text-[#7469b6] font-bold">
-              Sign Up
+              Create an account.
             </Link>
           </div>
         </div>

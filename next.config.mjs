@@ -11,7 +11,7 @@ const nextConfig = {
           {
             key: "Content-Security-Policy",
             value:
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net; object-src 'none'; base-uri 'none';",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net https://www.google.com https://www.gstatic.com; object-src 'none'; base-uri 'none';",
           },
         ],
       },

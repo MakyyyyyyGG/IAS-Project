@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
@@ -15,11 +15,26 @@ function Signup() {
   const [passwordUpper, setPasswordUpper] = useState(false);
   const [passwordNumber, setPasswordNumber] = useState(false);
   const [passwordSpecial, setPasswordSpecial] = useState(false);
-  const [capVal, setCapVal] = useState(null);
+  const [captchaVerified, setCaptchaVerified] = useState(false);
   const router = useRouter();
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src =
+      "https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit";
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+  const handleCaptchaChange = (value) => {
+    setCaptchaVerified(!!value);
+  };
   const handleFacebookSignIn = async () => {
     await signIn("facebook");
   };
@@ -95,6 +110,12 @@ function Signup() {
   if (status === "authenticated" && session?.user) {
     router.push("/homepage");
   }
+  const isFormValid =
+    passwordLength &&
+    passwordUpper &&
+    passwordNumber &&
+    passwordSpecial &&
+    captchaVerified;
 
   return (
     <div className="flex-col min-w-screen min-h-screen bg-[#7469b6] sm:flex sm:flex-row">
@@ -114,61 +135,69 @@ function Signup() {
           />
         </div>
         <div className="card flex flex-col justify-center items-center h-full w-full">
-          <div className="greet flex flex-col justify-center items-center gap-4 ">
+          <div className="greet flex flex-col sm:w-6/12 gap-4 ">
             <h1 className="sm:text-5xl font-bold text-[#7469b6]  text-[35px]">
-              Create an acccount
+              Sign Up
             </h1>
-            <Divider className="max-w-80 bg-[#7469b6] mb-5" />
+            <p className="mb-5 text-md">
+              Welcome to Noted! Please enter your credentials.
+            </p>
           </div>
           <form
             action=""
             autoComplete="off"
-            className="flex flex-col gap-2  sm:w-7/12 w-11/12"
+            className="flex flex-col gap-2  sm:w-6/12 w-11/12"
             onSubmit={handleSubmit}
           >
+            <label htmlFor="email" className="font-bold text-[#3b3b3b]">
+              Email
+            </label>
             <input
               type="text"
               name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="w-full p-4 bg-blue-600 rounded-xl border border-[#7469b6] bg-transparent text-[#7469b6] transition ease relative inline-flex items-center justify-center"
+              placeholder="example@gmail.com"
+              className="w-full p-3 bg-blue-600 rounded-xl border border-[#7469b6] bg-transparent text-[#7469b6] transition ease relative inline-flex items-center justify-center"
             />
-            <label htmlFor="email" className="sr-only">
-              Email
+            <label htmlFor="password" className="font-bold text-[#3b3b3b]">
+              Password
             </label>
             <input
               type="password"
               name="password"
               value={password}
               onChange={handlePasswordChange}
-              placeholder="Enter your password"
-              className="w-full p-4 bg-blue-600 rounded-xl border border-[#7469b6] bg-transparent text-[#7469b6] transition ease relative inline-flex items-center justify-center"
+              placeholder="Enter password"
+              className="w-full p-3 bg-blue-600 rounded-xl border border-[#7469b6] bg-transparent text-[#7469b6] transition ease relative inline-flex items-center justify-center"
             />
             <label htmlFor="password" className="sr-only">
               Password
             </label>
-            {/* <p className="password-strength-message">{passwordStrength}</p> */}
             <div className="w-full rounded-lg flex flex-col  py-2 hover:cursor-default">
               <Checkbox
+                size="sm"
                 isSelected={passwordLength}
                 className=" hover:cursor-default"
               >
                 At least 8 characters long.
               </Checkbox>
               <Checkbox
+                size="sm"
                 isSelected={passwordUpper}
                 className=" hover:cursor-default"
               >
                 Contains uppercase letter.
               </Checkbox>
               <Checkbox
+                size="sm"
                 isSelected={passwordNumber}
                 className=" hover:cursor-default"
               >
                 Contains number.
               </Checkbox>
               <Checkbox
+                size="sm"
                 isSelected={passwordSpecial}
                 className=" hover:cursor-default"
               >
@@ -176,9 +205,20 @@ function Signup() {
               </Checkbox>
             </div>
             <Button
-              disabled={!passwordLength || !passwordUpper || !passwordNumber}
               type="submit"
-              className="rounded-xl p-7 bg-[#7469b6] text-slate-50 text-lg hover:bg-[#473f7e] transition ease-in-out "
+              className={`rounded-xl p-6 bg-[#7469b6] text-slate-50 text-lg hover:bg-[#473f7e] transition ease-in-out ${
+                !isFormValid ? "disabled" : ""
+              }`}
+              disabled={!isFormValid}
+              // disabled={
+              //   !passwordLength ||
+              //   !passwordUpper ||
+              //   !passwordNumber ||
+              //   !passwordSpecial ||
+              //   !captchaVerified
+              // }
+              // type="submit"
+              // className="rounded-xl p-7 bg-[#7469b6] text-slate-50 text-lg hover:bg-[#473f7e] transition ease-in-out "
             >
               {loading ? (
                 <Spinner size="md" color="secondary" labelColor="secondary" />
@@ -186,6 +226,12 @@ function Signup() {
                 "Sign Up"
               )}
             </Button>
+            <div className="w-full flex justify-center">
+              <ReCAPTCHA
+                sitekey="6LecYxYqAAAAAFo1X_fRHai0n-b8f9--GySkIXqh"
+                onChange={handleCaptchaChange}
+              />
+            </div>
             <div className="or flex justify-center items-center">
               <Divider className="sm:w-1/2 w-32" />
               <p className="mx-2 my-4 text-sm">OR</p>
@@ -193,7 +239,7 @@ function Signup() {
             </div>
           </form>
           <button
-            className="sm:w-7/12  mt-2  w-11/12 p-4 bg-blue-600 rounded-xl border border-[#7469b6] bg-transparent text-slate-700  font-bold hover:bg-[#7469b6] hover:text-white transition ease relative inline-flex items-center justify-center"
+            className="sm:w-6/12  mt-2  w-11/12 p-3 bg-blue-600 rounded-xl border border-[#7469b6] bg-transparent text-slate-700  font-bold hover:bg-[#7469b6] hover:text-white transition ease relative inline-flex items-center justify-center"
             onClick={handleGoogleSignIn}
           >
             <svg
@@ -237,7 +283,7 @@ function Signup() {
             <span className="mx-autofont-bold">Continue with Google</span>
           </button>
           <button
-            className="w-11/12 sm:w-7/12 mt-2 p-4 rounded-xl border  bg-[#1f7bf2]  font-bold hover:bg-[#4762b1] text-white transition ease relative inline-flex items-center justify-center"
+            className="w-11/12 sm:w-6/12 mt-2 p-3 rounded-xl border  bg-[#1f7bf2]  font-bold hover:bg-[#4762b1] text-white transition ease relative inline-flex items-center justify-center"
             onClick={handleFacebookSignIn}
           >
             <svg
